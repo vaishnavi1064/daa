@@ -1,0 +1,49 @@
+Write a Programme to implement Hummfan’s coding algorithm Using Greedy Method 
+
+
+import heapq
+
+class HuffManNode:
+    def __init__(self, freq, symbol, left=None, right=None):
+        self.freq = freq
+        self.symbol = symbol
+        self.left = left
+        self.right = right
+        self.huff = ""
+
+    # Defining less than operator to make HuffManNode comparable in priority queue
+    def __lt__(self, other):
+        return self.freq < other.freq
+
+def print_nodes(node, val=""):
+    new_val = val + node.huff
+    if node.left is not None:
+        print_nodes(node.left, new_val)
+    if node.right is not None:
+        print_nodes(node.right, new_val)
+    if node.left is None and node.right is None:
+        print(f"{node.symbol} -> {new_val}")
+
+def main():
+    symbols = ["a", "b", "c", "d", "e", "f"]
+    freqs = [50, 10, 30, 5, 3, 2]
+
+    # Creating a priority queue
+    huffman_nodes = [HuffManNode(freqs[i], symbols[i]) for i in range(len(symbols))]
+    heapq.heapify(huffman_nodes)
+
+    while len(huffman_nodes) > 1:
+        left = heapq.heappop(huffman_nodes)
+        right = heapq.heappop(huffman_nodes)
+
+        left.huff = "0"
+        right.huff = "1"
+
+        new_node = HuffManNode(left.freq + right.freq, left.symbol + right.symbol, left, right)
+        heapq.heappush(huffman_nodes, new_node)
+
+    # Print the Huffman Codes
+    print_nodes(huffman_nodes[0])
+
+if __name__ == "__main__":
+    main()

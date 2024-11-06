@@ -1,0 +1,64 @@
+Design n-Queens matrix having first Queen placed. Use backtracking to 
+place remaining Queens to generate the final n-queen’s matrix. 
+
+def solve_n_queens(n, first_queen_col):
+    def backtrack(r):
+        if r == n:
+            # Convert board rows to strings for final solution
+            solution = ["".join(row) for row in board]
+            res.append(solution)
+            return
+
+        for c in range(n):
+            if c in col or (r + c) in pos_diag or (r - c) in neg_diag:
+                continue
+
+            # Place queen
+            col.add(c)
+            pos_diag.add(r + c)
+            neg_diag.add(r - c)
+            board[r][c] = 'Q'
+
+            # Move to next row
+            backtrack(r + 1)
+
+            # Remove queen
+            col.remove(c)
+            pos_diag.remove(r + c)
+            neg_diag.remove(r - c)
+            board[r][c] = '.'
+
+    # Sets to track columns, positive and negative diagonals
+    col = set()
+    pos_diag = set()
+    neg_diag = set()
+    res = []
+    board = [['.' for _ in range(n)] for _ in range(n)]
+
+    # Place the first queen in the specified column of the first row
+    col.add(first_queen_col)
+    pos_diag.add(0 + first_queen_col)
+    neg_diag.add(0 - first_queen_col)
+    board[0][first_queen_col] = 'Q'
+
+    # Start recursive backtracking from the second row
+    backtrack(1)
+
+    return res
+
+def main():
+    n = 8
+    first_queen_col = 1
+
+    solutions = solve_n_queens(n, first_queen_col)
+    
+    if solutions:
+        # Print the first solution with spacing
+        board = solutions[0]
+        for row in board:
+            print(" ".join(row))
+    else:
+        print("No solutions found.")
+
+if __name__ == "__main__":
+    main()

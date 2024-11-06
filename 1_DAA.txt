@@ -1,0 +1,35 @@
+Write a recursive and non-recursive program to calculate Fibonacci numbers and 
+analyze their time complexity. 
+
+def fibonacci_iteratively(n):
+    num1, num2 = 0, 1
+    step_count = 0
+
+    print("Fibonacci Iteratively:")
+    for i in range(n):
+        print(num1, end=" ")
+        fib = num1 + num2
+        num1 = num2
+        num2 = fib
+        step_count += 1
+    print("\nStep count (Iterative):", step_count)
+
+def fibonacci_recursively(n, step_counter):
+    step_counter[0] += 1
+    if n <= 1:
+        return n
+    return fibonacci_recursively(n - 1, step_counter) + fibonacci_recursively(n - 2, step_counter)
+
+def main():
+    n = int(input("Enter a number: "))
+
+    fibonacci_iteratively(n)
+
+    print("Fibonacci Recursively:")
+    step_counter = [0]
+    for i in range(n):
+        print(fibonacci_recursively(i, step_counter), end=" ")
+    print("\nStep count (Recursive):", step_counter[0])
+
+if __name__ == "__main__":
+    main()

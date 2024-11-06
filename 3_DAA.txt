@@ -1,0 +1,40 @@
+Write a Program to solve Fractional Knapsack Problem Using Greedy Method 
+
+
+class Item:
+    def __init__(self, profit, weight):
+        self.profit = profit
+        self.weight = weight
+
+def fractional_knapsack(capacity, items):
+    # Sort items by profit/weight ratio in descending order
+    items.sort(key=lambda item: item.profit / item.weight, reverse=True)
+
+    total_value = 0.0
+
+    for item in items:
+        if capacity >= item.weight:
+            total_value += item.profit
+            capacity -= item.weight
+        else:
+            total_value += item.profit * (capacity / item.weight)
+            break
+
+    return total_value
+
+def main():
+    n = int(input("Enter number of items:\n"))
+
+    items = []
+    for i in range(n):
+        profit = int(input(f"Enter profit of item {i + 1}:\n"))
+        weight = int(input(f"Enter weight of item {i + 1}:\n"))
+        items.append(Item(profit, weight))
+
+    capacity = int(input("Enter capacity of knapsack:\n"))
+    
+    max_value = fractional_knapsack(capacity, items)
+    print(f"Maximum value in knapsack: {max_value}")
+
+if __name__ == "__main__":
+    main()
